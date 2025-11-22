@@ -1,119 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Matcher</title>
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent: #38bdf8;
-            --accent-hover: #0ea5e9;
             --gradient-start: #3b82f6;
             --gradient-end: #8b5cf6;
+            --gradient-success: linear-gradient(135deg, #10b981, #3b82f6);
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            margin: 0;
+            background-color: #0f172a;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
+            padding: 2rem 0;
         }
 
-        h1 {
-            font-size: 3rem;
-            font-weight: 800;
+        .gradient-text {
             background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 2rem;
-            text-align: center;
         }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        label {
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        input[type="file"],
-        input[type="number"] {
-            width: 100%;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            background-color: var(--bg-color);
-            border: 1px solid #334155;
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: border-color 0.2s;
-            box-sizing: border-box;
-        }
-
-        input[type="file"]:focus,
-        input[type="number"]:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        button {
+        .btn-gradient {
             background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
-            color: white;
-            padding: 1rem;
             border: none;
-            border-radius: 0.5rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
             transition: transform 0.1s, opacity 0.2s;
         }
 
-        button:hover {
+        .btn-gradient:hover {
             opacity: 0.9;
             transform: translateY(-1px);
         }
 
-        .teams-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
+        .btn-gradient-success {
+            background: var(--gradient-success);
+            border: none;
         }
 
-        .team-card {
-            background-color: var(--card-bg);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .card {
+            background-color: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.2s;
         }
 
@@ -122,73 +63,157 @@
             border-color: rgba(56, 189, 248, 0.3);
         }
 
-        .team-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 0.5rem;
+        .list-group-item {
+            background-color: #1e293b;
+            border-color: rgba(255, 255, 255, 0.1);
+            transition: background-color 0.2s;
         }
 
-        .member-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        .list-group-item:hover {
+            background-color: #334155;
         }
 
-        .member-item {
-            padding: 0.5rem 0;
-            color: var(--text-secondary);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .badge-gradient {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
         }
 
-        .member-item:last-child {
-            border-bottom: none;
+        .form-control,
+        .form-select {
+            background-color: #0f172a;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background-color: #0f172a;
+            border-color: #38bdf8;
+            color: #f8fafc;
+            box-shadow: 0 0 0 0.25rem rgba(56, 189, 248, 0.25);
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Team Matcher</h1>
+        <!-- Header -->
+        <h1 class="display-3 fw-bold text-center mb-5 gradient-text">
+            <i class="bi bi-people-fill me-3"></i>Team Matcher
+        </h1>
 
-        <div class="card">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div>
-                    <label for="{{ form.file.id_for_label }}">Upload CSV File</label>
-                    {{ form.file }}
-                </div>
-                <div>
-                    <label for="{{ form.team_size.id_for_label }}">People per Team</label>
-                    {{ form.team_size }}
-                </div>
-                <button type="submit">Generate Teams</button>
-            </form>
+        <!-- Upload Form Card -->
+        <div class="card shadow-lg mb-4">
+            <div class="card-body p-4">
+                <h5 class="card-title mb-4"><i class="bi bi-upload me-2"></i>Generate Teams</h5>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="{{ form.file.id_for_label }}" class="form-label">
+                            <i class="bi bi-file-earmark-spreadsheet me-2"></i>Upload CSV File
+                        </label>
+                        {{ form.file }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.team_size.id_for_label }}" class="form-label">
+                            <i class="bi bi-hash me-2"></i>People per Team
+                        </label>
+                        {{ form.team_size }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.team_template.id_for_label }}" class="form-label">
+                            <i class="bi bi-tag me-2"></i>Team Name Template
+                        </label>
+                        {{ form.team_template }}
+                        <div class="form-text">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Optional: Select a template for custom team names. Leave as default for "Team 1, Team 2,
+                            ..."
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-gradient text-white w-100 py-2 fw-bold">
+                        <i class="bi bi-shuffle me-2"></i>Generate Teams
+                    </button>
+                </form>
+            </div>
         </div>
 
+        <!-- Historical Downloads Section -->
+        {% if historical_generations %}
+        <div class="card shadow-lg mb-4">
+            <div class="card-body p-4">
+                <h5 class="card-title mb-3">
+                    <i class="bi bi-clock-history me-2"></i>Recent Generations
+                    <span class="badge badge-gradient ms-2">Last {{ historical_generations|length }}</span>
+                </h5>
+                <div class="list-group">
+                    {% for generation in historical_generations %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">
+                                <i class="bi bi-calendar3 me-2"></i>
+                                {{ generation.generated_at|date:"M d, Y - g:i A" }}
+                            </h6>
+                            <small class="text-muted">
+                                <i class="bi bi-person-fill me-1"></i>{{ generation.student_count }} students
+                                <span class="mx-2">•</span>
+                                <i class="bi bi-people-fill me-1"></i>{{ generation.team_size }} per team
+                                {% if generation.template_used %}
+                                <span class="mx-2">•</span>
+                                <i class="bi bi-tag-fill me-1"></i>{{ generation.template_used.name }}
+                                {% endif %}
+                            </small>
+                        </div>
+                        <a href="{% url 'download_historical_csv' generation.id %}"
+                            class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-download me-1"></i>Download
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Current Teams Display -->
         {% if teams %}
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <a href="{% url 'download_csv' %}" style="text-decoration: none;">
-                <button type="button" style="background: linear-gradient(to right, #10b981, #3b82f6);">Download
-                    CSV</button>
+        <div class="text-center mb-4">
+            <a href="{% url 'download_csv' %}" class="btn btn-gradient-success text-white btn-lg px-5 py-3 fw-bold">
+                <i class="bi bi-download me-2"></i>Download Current CSV
             </a>
         </div>
-        <div class="teams-grid">
+
+        <div class="row g-4">
             {% for team in teams %}
-            <div class="team-card">
-                <div class="team-title">{{ team.name }}</div>
-                <ul class="member-list">
-                    {% for member in team.members %}
-                    <li class="member-item">{{ member.username }}</li>
-                    {% endfor %}
-                </ul>
+            <div class="col-md-6 col-lg-4">
+                <div class="card team-card shadow h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-info border-bottom border-info pb-2 mb-3">
+                            <i class="bi bi-shield-fill me-2"></i>{{ team.name }}
+                        </h5>
+                        <ul class="list-group list-group-flush">
+                            {% for member in team.members %}
+                            <li class="list-group-item px-0 py-2">
+                                <i class="bi bi-person-circle me-2"></i>{{ member.username }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>
         {% endif %}
     </div>
+<<<<<<< HEAD
+=======
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+>>>>>>> 041ba03 (first commit)
 </body>
 
 </html>
