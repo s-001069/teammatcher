@@ -67,3 +67,8 @@ class CSVGeneration(models.Model):
     def __str__(self):
         template_name = self.template_used.name if self.template_used else "Default"
         return f"{self.generated_at.strftime('%Y-%m-%d %H:%M')} - {self.student_count} students - {template_name}"
+
+
+class Student(models.Model):
+    student_id = models.CharField(primary_key=True, max_length=50)
+    vector = models.TextField()
