@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ('team_size', models.IntegerField(help_text='People per team')),
                 ('generated_at', models.DateTimeField(default=django.utils.timezone.now)),
                 ('student_count', models.IntegerField(help_text='Total number of students')),
-                ('template_used', models.ForeignKey(blank=True, help_text='Team name template used (if any)', null=True, on_delete=django.db.models.deletion.SET_NULL, to='allocator.teamnametemplate')),
+                ('template_used', models.ForeignKey(blank=True, help_text='Team name template used (if any)', null=True, on_delete=django.db.models.deletion.SET_NULL, to='teacher_side.teamnametemplate')),
             ],
             options={
                 'verbose_name': 'CSV Generation',

@@ -9,7 +9,7 @@ SECRET_KEY = 'django-insecure-pifx4!m+=e9t!=)l4k&&8&hn0306)gb!sx2g$1o27!^-63m(wr
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.pythonanywhere.com', '127.0.0.1']
 
 
 
@@ -20,7 +20,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'allocator',
+    'student_side',
+    'teacher_side',
 ]
 
 MIDDLEWARE = [
@@ -33,7 +34,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'teammaker.urls'
+ROOT_URLCONF = 'app_teammatcher.urls'
 
 TEMPLATES = [
     {
@@ -50,7 +51,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'teammaker.wsgi.application'
+WSGI_APPLICATION = 'app_teammatcher.wsgi.application'
 
 
 
@@ -96,3 +97,5 @@ STATIC_URL = 'static/'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TEACHER_PASSWORD = "changeme123"
