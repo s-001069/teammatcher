@@ -118,7 +118,7 @@ class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
         fields = [
-            "name",
+            "student_id",
             "availability_monday",
             "availability_tuesday",
             "availability_wednesday",
