@@ -34,7 +34,7 @@ SEX_CHOICES = [
 
 
 class StudentProfile(models.Model):
-    name = models.CharField(max_length=200)
+    student_id = models.CharField(max_length=200)
 
     availability_monday = models.CharField(max_length=200, blank=True)
     availability_tuesday = models.CharField(max_length=200, blank=True)
@@ -62,4 +62,4 @@ class StudentProfile(models.Model):
     preferred_tasks = models.ManyToManyField(Task, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.student_id

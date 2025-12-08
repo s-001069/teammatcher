@@ -9,7 +9,7 @@ def student_profile_create(request):
         form = StudentProfileForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("profile_thanks")
+            return redirect("student_side:profile_thanks")
     else:
         form = StudentProfileForm()
 

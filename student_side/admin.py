@@ -11,7 +11,7 @@ def export_selected_profiles(modeladmin, request, queryset):
 
     writer = csv.writer(response)
     writer.writerow([
-        "Name",
+        "Student ID",
         "Commitment",
         "Experience level",
         "Lead preference",
@@ -20,7 +20,7 @@ def export_selected_profiles(modeladmin, request, queryset):
 
     for p in queryset:
         writer.writerow([
-            p.name,
+            p.student_id,
             p.commitment,
             p.experience_level,
             p.lead_preference,
@@ -39,7 +39,7 @@ def export_all_profiles(modeladmin, request, queryset):
 
     writer = csv.writer(response)
     writer.writerow([
-        "Name",
+        "Student ID",
         "Commitment",
         "Experience level",
         "Lead preference",
@@ -48,7 +48,7 @@ def export_all_profiles(modeladmin, request, queryset):
 
     for p in queryset:
         writer.writerow([
-            p.name,
+            p.student_id,
             p.commitment,
             p.experience_level,
             p.lead_preference,
@@ -68,9 +68,21 @@ clear_all_profiles.short_description = "Delete ALL profiles"
 
 @admin.register(StudentProfile)
 class StudentProfileAdmin(admin.ModelAdmin):
-    list_display = ("name", "commitment", "experience_level", "lead_preference")
+    list_display = ("student_id", "commitment", "experience_level", "lead_preference")
     actions = [
         "export_selected_profiles",
         "export_all_profiles",
         "clear_all_profiles",
     ]
+
+
+def clear_all_tasks(modeladmin, request, queryset):
+    Task.objects.all().delete()
+
+clear_all_tasks.short_description = "Delete ALL tasks"
+
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ["name", "active"]
+    actions = ["clear_all_tasks"]
