@@ -1,4 +1,4 @@
-from allocator.models import TeamNameTemplate
+from teacher_side.models import TeamNameTemplate
 
 marvel_template = TeamNameTemplate.objects.create(
     name="Marvel Heroes",

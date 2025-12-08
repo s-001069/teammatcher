@@ -69,6 +69,6 @@ class CSVGeneration(models.Model):
         return f"{self.generated_at.strftime('%Y-%m-%d %H:%M')} - {self.student_count} students - {template_name}"
 
 
-class Student(models.Model):
-    student_id = models.CharField(primary_key=True, max_length=50)
-    vector = models.TextField()
+# class Student(models.Model):
+#     student_id = models.CharField(primary_key=True, max_length=50)
+#     vector = models.TextField()
