@@ -25,7 +25,7 @@ def make_fitness_func(students_encoded, team_size, weights, homogeneous_idx, het
     """
     weights: (w_avail, w_commit, w_age, w_sex, w_job, w_bach)
     """
-    w_avail, w_commit, w_age, w_sex, w_job, w_bach = weights
+    w_avail, w_commit, w_age, w_sex, w_job, w_bach,w7,w8,w9 = weights # fix weights
 
     def fitness_func(ga_instance, solution, solution_idx):
         solution_int = np.asarray(solution, dtype=int)
@@ -42,9 +42,9 @@ def make_fitness_func(students_encoded, team_size, weights, homogeneous_idx, het
                 continue
 
             team_matrix = students_encoded[idx]
-            total_hom += _team_homogeneity_score(team_matrix, homogeneous_idx)
-            total_div += _team_diversity_score(team_matrix, heterogeneous_idx)
-            size_pen  += _team_size_penalty(idx, team_size)
+            total_hom += team_homogeneity_score(team_matrix, homogeneous_idx)
+            total_div += team_diversity_score(team_matrix, heterogeneous_idx)
+            size_pen  += team_size_penalty(idx, team_size)
             valid_teams += 1
 
         if valid_teams == 0:
