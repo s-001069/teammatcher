@@ -55,7 +55,7 @@ def encode_student(student, tasks):
     n_tasks = len(tasks)
 
     # 7 days x 3 slots + 7 features (without tasks) + 1 * number of tasks
-    student_encoded = np.zeros((7*3 + 7 + n_tasks), dtype=float)
+    student_encoded = np.zeros((28 + n_tasks), dtype=float)
 
     # --- availability encoding ---
     day_keys = [
@@ -108,7 +108,4 @@ def encode_student(student, tasks):
     for task_idx, task_name in enumerate(tasks):
         student_encoded[offset + task_idx] = int(task_name in student_tasks)
 
-    homogeneous_idx = list(range(0, 22))     # availability & commitment
-    heterogeneous_idx = list(range(22, len(student_encoded)))   # rest features
-
-    return student_encoded, homogeneous_idx, heterogeneous_idx
+    return student_encoded
