@@ -1,5 +1,6 @@
 import csv
 
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 import pandas as pd
@@ -10,6 +11,7 @@ from .forms import UploadFileForm
 from .models import CSVGeneration
 
 
+@staff_member_required
 def index(request):
     teams = []
 
