@@ -1,5 +1,7 @@
-import numpy as np
+""" Encoder for student profiles """
 
+import numpy as np
+from teacher_side.matcher.utils import get_student_data, get_tasks
 
 def encode_student(student, tasks):
     """
@@ -9,7 +11,6 @@ def encode_student(student, tasks):
         - tasks: list of all possible task names
     Returns:
         - numpy array representing encoded student data
-        - number of tasks (int)
     """
 
     # maps for encoding categorical features
@@ -110,4 +111,38 @@ def encode_student(student, tasks):
     if student.lead_preference in lead_map:
         student_encoded[offset + 6] = lead_map[student.lead_preference]
 
-    return student_encoded, n_tasks
+    return student_encoded
+
+
+def prepare_data(df):
+    """ 
+        Encodes student data
+        Args:
+            - df: pandas Dataframe containing student data from uploaded CSV
+        Returns:
+            - encoded student data as numpy array
+    """
+
+    students = get_student_data()
+    db_student_map = {getattr(s, 'student_id', str(s)): s for s in students}
+    tasks = get_tasks()
+    n_tasks = len(tasks)
+
+    vector_size = 21 + n_tasks + 7
+
+    encoded_list = []
+    for _, row in df.iterrows():
+        csv_id = str(row['username']).strip()
+
+        if csv_id in db_student_map:
+            student = db_student_map[csv_id]
+            encoded = encode_student(student, tasks)
+        else:
+            # case: student did not fill form
+            # assumes full availability and all tasks preferred, leaves every other feature as 0
+            encoded = np.zeros(vector_size, dtype=float)
+            encoded[0:21+n_tasks] = 1
+
+        encoded_list.append(encoded)
+
+    return np.vstack(encoded_list)

@@ -1,49 +1,13 @@
 """ Genetic algorithm student matcher """
 
 import math
-import numpy as np
 import pygad
 
+from teacher_side.matcher.encoder import prepare_data
 from teacher_side.matcher.fitness_function import make_fitness_func
-from teacher_side.matcher.encoder import encode_student
-from teacher_side.matcher.utils import get_student_data, get_tasks
 
 
-def prepare_data(df):
-    """ 
-        Encodes student data
-        Args:
-            - df: pandas Dataframe containing student data from uploaded CSV
-        Returns:
-            - encoded student data as numpy array
-            - number of tasks (int)
-    """
-
-    students = get_student_data()
-    db_student_map = {getattr(s, 'student_id', str(s)): s for s in students}
-    tasks = get_tasks()
-    n_tasks = len(tasks)
-
-    vector_size = 21 + n_tasks + 7
-
-    # encode all students
-    encoded_list = []
-
-    for index, row in df.iterrows():
-        csv_id = str(row['username']).strip()
-        
-        if csv_id in db_student_map:
-            student = db_student_map[csv_id]
-            encoded = encode_student(student, tasks)         
-        else: # student did not fill form
-            encoded = np.zeros(vector_size, dtype=float)
-            encoded[0:21+n_tasks] = 1 # assumes full availability and all tasks preferred, leaves every other feature as 0
-
-        encoded_list.append(encoded)
-
-    return np.vstack(encoded_list)
-
-def match(df, team_template, weights, constraints):  
+def match(df, team_template, weights, constraints):
     """ 
         Matches students into teams using genetic algorithm
         Args:
@@ -68,13 +32,13 @@ def match(df, team_template, weights, constraints):
     # case one extra student
     if (n_teams * max_size) < n_students:
         n_teams = math.ceil(n_students / max_size)
-    
+
     # case not enough students
     if (n_teams * min_size) > n_students:
         n_teams = math.floor(n_students / min_size)
 
     fitness_func = make_fitness_func(
-        students_encoded, 
+        students_encoded,
         min_size=min_size,
         max_size=max_size,
         weights=weights
@@ -118,13 +82,13 @@ def match(df, team_template, weights, constraints):
     if 'mode' in df.columns:
         mode_idx = df.columns.get_loc('mode')
         cols_after_mode = df.columns[mode_idx+1:]
-        
+
         # finds the first empty column in slice (after 'mode' column)
         for col in cols_after_mode:
             if df[col].isnull().all():
                 target_col = col
                 break
-    
+            
     if target_col: # adds results to first empty column after 'mode'
         df[target_col] = team_assignments
     else: # creates new column 'teams'
