@@ -18,19 +18,21 @@ def index(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            team_size = form.cleaned_data['team_size']
-            team_template = form.cleaned_data.get('team_template')
-
             df = pd.read_csv(request.FILES['file'])
+            team_template = form.cleaned_data.get('team_template')
             weights = get_weights(form)
-            df_result, target_col, best_fitness = match(df, team_template, weights)
+            constraints = {
+                'min_size': form.cleaned_data['min_team_size'],
+                'max_size': form.cleaned_data['max_team_size'],
+            }
+            df_result, target_col, best_fitness = match(df, team_template, weights, constraints)
             print("Best fitness:", best_fitness)
 
             # csv generation
             csv_content = df_result.to_csv(index=False)
             CSVGeneration.objects.create_generation(
                     csv_data=csv_content,
-                    team_size=team_size,
+                    team_size=int((constraints['min_size'] + constraints['max_size']) // 2), # average team size
                     template_used=team_template,
                     student_count=df.shape[0]
             )

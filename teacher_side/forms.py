@@ -10,13 +10,20 @@ class UploadFileForm(forms.Form):
             'accept': '.csv'
         })
     )
-    team_size = forms.IntegerField(
-        label='People per Team',
-        min_value=1,
-        initial=3,
+    min_team_size = forms.IntegerField(
+        min_value=1, 
+        initial=3, 
+        label="Min People Per Team",
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter team size'
+        })
+    )
+    max_team_size = forms.IntegerField(
+        min_value=1, 
+        initial=5, 
+        label="Max People Per Team",
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
         })
     )
     team_template = forms.ModelChoiceField(
@@ -28,7 +35,6 @@ class UploadFileForm(forms.Form):
         }),
         label='Team Name Template'
     )
-
     weight_availability = forms.IntegerField(
         label='Availability Weight',
         min_value=0,
@@ -39,7 +45,6 @@ class UploadFileForm(forms.Form):
             'step': '0.1'
         })
     )
-
     weight_commitment = forms.IntegerField(
         label='Commitment Weight',
         min_value=0,
@@ -50,7 +55,6 @@ class UploadFileForm(forms.Form):
             'step': '0.1'
         })
     )
-
     weight_education = forms.IntegerField(
         label='Educational Background Weight',
         min_value=0,
@@ -61,7 +65,6 @@ class UploadFileForm(forms.Form):
             'step': '0.1'
         })
     )
-
     weight_job = forms.IntegerField(
         label='Professional Background Weight',
         min_value=0,
@@ -72,7 +75,6 @@ class UploadFileForm(forms.Form):
             'step': '0.1'
         })
     )
-
     weight_age = forms.IntegerField(
         label='Age Weight',
         min_value=0,
@@ -83,7 +85,6 @@ class UploadFileForm(forms.Form):
             'step': '0.1'
         })
     )
-
     weight_gender = forms.IntegerField(
         label='Gender Weight',
         min_value=0,
@@ -94,7 +95,6 @@ class UploadFileForm(forms.Form):
             'step': '0.1'
         })
     )
-
     weight_experience = forms.IntegerField(
         label='Experience Weight',
         min_value=0,
@@ -105,7 +105,6 @@ class UploadFileForm(forms.Form):
             'step': '0.1'
         })
     )
-
     weight_lead = forms.IntegerField(
         label='Lead Preference Weight',
         min_value=0,
@@ -116,7 +115,6 @@ class UploadFileForm(forms.Form):
             'step': '0.1'
         })
     )
-
     weight_tasks = forms.IntegerField(
         label='Preferred Tasks Weight',
         min_value=0,

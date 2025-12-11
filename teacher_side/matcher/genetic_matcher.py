@@ -1,5 +1,6 @@
 """ Genetic algorithm student matcher """
 
+import math
 import numpy as np
 import pygad
 
@@ -42,23 +43,42 @@ def prepare_data(df):
 
     return np.vstack(encoded_list)
 
-def match(df, team_template, weights):  
+def match(df, team_template, weights, constraints):  
     """ 
         Matches students into teams using genetic algorithm
         Args:
             - df: pandas Dataframe containing student data from uploaded CSV
             - team_template: TeamTemplate object
+            - weights: list of weights for fitness function
+            - constraints: dict with team size constraints
         Returns:
             - df with team assignments
             - target column name (str) where assignments were added
             - best fitness score
     """
     students_encoded = prepare_data(df)
+    n_students = students_encoded.shape[0]
 
-    n_teams=4
-    team_size = 4
+    min_size = constraints['min_size']
+    max_size = constraints['max_size']
 
-    fitness_func = make_fitness_func(students_encoded, team_size, weights)
+    target_avg_size = (min_size + max_size) / 2
+    n_teams = math.ceil(n_students / target_avg_size)
+
+    # case one extra student
+    if (n_teams * max_size) < n_students:
+        n_teams = math.ceil(n_students / max_size)
+    
+    # case not enough students
+    if (n_teams * min_size) > n_students:
+        n_teams = math.floor(n_students / min_size)
+
+    fitness_func = make_fitness_func(
+        students_encoded, 
+        min_size=min_size,
+        max_size=max_size,
+        weights=weights
+    )
     gene_space = list(range(n_teams))
 
     ga_instance = pygad.GA(
