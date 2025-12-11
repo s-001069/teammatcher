@@ -115,11 +115,19 @@
                         {{ form.file }}
                     </div>
 
-                    <div class="mb-3">
-                        <label for="{{ form.team_size.id_for_label }}" class="form-label">
-                            <i class="bi bi-hash me-2"></i>People per Team
-                        </label>
-                        {{ form.team_size }}
+                    <div class="row g-2">
+                        <div class="col-md-6 mb-4">
+                            <label for="{{ form.min_team_size.id_for_label }}" class="form-label">
+                                <i class="bi bi-person-dash me-2"></i>Min Size
+                            </label>
+                            {{ form.min_team_size }}
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label for="{{ form.max_team_size.id_for_label }}" class="form-label">
+                                <i class="bi bi-person-plus me-2"></i>Max Size
+                            </label>
+                            {{ form.max_team_size }}
+                        </div>
                     </div>
 
                     <div class="mb-4">
