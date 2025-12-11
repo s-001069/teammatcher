@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                 ),
                 ("age", models.IntegerField(blank=True, null=True)),
                 (
-                    "sex",
+                    "gender",
                     models.CharField(
                         blank=True,
                         choices=[

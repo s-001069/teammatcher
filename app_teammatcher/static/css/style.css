@@ -1,0 +1,75 @@
+:root {
+    --gradient-start: #3b82f6;
+    --gradient-end: #8b5cf6;
+    --gradient-success: linear-gradient(135deg, #10b981, #3b82f6);
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #0f172a;
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-gradient {
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    border: none;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+.btn-gradient:hover {
+    opacity: 0.6;
+    transform: translateY(-1px);
+}
+
+.btn-gradient-success {
+    background: var(--gradient-success);
+    border: none;
+}
+
+.card {
+    background-color: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+.list-group-item {
+    background-color: #1e293b;
+    border-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s;
+}
+
+.list-group-item:hover {
+    background-color: #334155;
+}
+
+.badge-gradient {
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+}
+
+.form-control,
+.form-select {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #0f172a;
+    border-color: #38bdf8;
+    color: #f8fafc;
+    box-shadow: 0 0 0 0.25rem rgba(56, 189, 248, 0.25);
+}
