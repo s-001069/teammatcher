@@ -28,3 +28,103 @@ class UploadFileForm(forms.Form):
         }),
         label='Team Name Template'
     )
+
+    weight_availability = forms.IntegerField(
+        label='Availability Weight',
+        min_value=0,
+        max_value=10,
+        initial=10,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.1'
+        })
+    )
+
+    weight_commitment = forms.IntegerField(
+        label='Commitment Weight',
+        min_value=0,
+        max_value=10,
+        initial=5,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.1'
+        })
+    )
+
+    weight_education = forms.IntegerField(
+        label='Educational Background Weight',
+        min_value=0,
+        max_value=10,
+        initial=3,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.1'
+        })
+    )
+
+    weight_job = forms.IntegerField(
+        label='Professional Background Weight',
+        min_value=0,
+        max_value=10,
+        initial=3,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.1'
+        })
+    )
+
+    weight_age = forms.IntegerField(
+        label='Age Weight',
+        min_value=0,
+        max_value=10,
+        initial=5,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.1'
+        })
+    )
+
+    weight_gender = forms.IntegerField(
+        label='Gender Weight',
+        min_value=0,
+        max_value=10,
+        initial=5,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.1'
+        })
+    )
+
+    weight_experience = forms.IntegerField(
+        label='Experience Weight',
+        min_value=0,
+        max_value=10,
+        initial=6,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.1'
+        })
+    )
+
+    weight_lead = forms.IntegerField(
+        label='Lead Preference Weight',
+        min_value=0,
+        max_value=10,
+        initial=6,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.1'
+        })
+    )
+
+    weight_tasks = forms.IntegerField(
+        label='Preferred Tasks Weight',
+        min_value=0,
+        max_value=10,
+        initial=10,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.1'
+        })
+    )
+
