@@ -1,3 +1,5 @@
+""" helper functions for matcher module """
+
 from student_side.models import StudentProfile, Task
 
 def get_weights(form):

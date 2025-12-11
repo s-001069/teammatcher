@@ -3,6 +3,9 @@ from .models import TeamNameTemplate
 
 
 class UploadFileForm(forms.Form):
+    """
+        Form for uploading CSV and setting team formation criteria
+    """
     file = forms.FileField(
         label='Select CSV File',
         widget=forms.FileInput(attrs={
@@ -11,16 +14,16 @@ class UploadFileForm(forms.Form):
         })
     )
     min_team_size = forms.IntegerField(
-        min_value=1, 
-        initial=3, 
+        min_value=1,
+        initial=3,
         label="Min People Per Team",
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
         })
     )
     max_team_size = forms.IntegerField(
-        min_value=1, 
-        initial=5, 
+        min_value=1,
+        initial=5,
         label="Max People Per Team",
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
@@ -125,4 +128,3 @@ class UploadFileForm(forms.Form):
             'step': '0.1'
         })
     )
-
