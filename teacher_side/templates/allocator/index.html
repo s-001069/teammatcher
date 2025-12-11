@@ -52,17 +52,20 @@
                         </div>
                     </div>
 
-                    <div class="mb-4">
-                        <label for="{{ form.team_template.id_for_label }}" class="form-label">
-                            <i class="bi bi-tag me-2"></i>Team Name Template
-                        </label>
-                        {{ form.team_template }}
-                        <div class="form-text">
-                            <i class="bi bi-info-circle me-1"></i>
-                            Optional: Select a template for custom team names. Leave as default for "Team 1, Team 2,
-                            ..."
+                    {% if team_template|length > 0 %}
+                        <div class="mb-4">
+                            <label for="{{ form.team_template.id_for_label }}" class="form-label">
+                                <i class="bi bi-tag me-2"></i>Team Name Template
+                            </label>
+                            {{ form.team_template }}
+                            <div class="form-text">
+                                <i class="bi bi-info-circle me-1"></i>
+                                Optional: Select a template for custom team names. Leave as default for "Team 1, Team 2,
+                                ..."
+                            </div>
                         </div>
-                    </div>
+                    {%endif %}
+
 
                     <hr class="border-secondary my-4">
 
