@@ -7,19 +7,24 @@ import pandas as pd
 
 from teacher_side.matcher.genetic_matcher import match
 from teacher_side.matcher.random_matcher import random_match
+from teacher_side.matcher.utils import *
 from .forms import UploadFileForm
 from .models import CSVGeneration
 
 
 def index(request):
+    teams = []
+
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             team_size = form.cleaned_data['team_size']
             team_template = form.cleaned_data.get('team_template')
-            df = pd.read_csv(request.FILES['file'])
 
-            df_result, target_col = match(df, team_template)
+            df = pd.read_csv(request.FILES['file'])
+            weights = get_weights(form)
+            df_result, target_col, best_fitness = match(df, team_template, weights)
+            print("Best fitness:", best_fitness)
 
             # csv generation
             csv_content = df_result.to_csv(index=False)
@@ -32,23 +37,21 @@ def index(request):
 
 
             grouped = df_result.groupby(target_col)
-            teams = []             
             for name, group in grouped:
                 teams.append({
                     'name': name,
-                    'members': group.to_dict('records') # Convert group rows to list of dicts
+                    'members': group.to_dict('records') # convert group rows to list of dicts
                 })
             
-            # Optional: Sort teams nicely (Team 1, Team 2...)
             teams.sort(key=lambda x: int(x['name'].split()[-1]) if x['name'].split()[-1].isdigit() else 999)
-            
+        else:
+            print(form.errors)
     else:
-        teams = []
         form = UploadFileForm()
         if 'results' in request.session:
             del request.session['results']
 
-    historical_generations = CSVGeneration.objects.order_by('-id')[:5] # ordered to get recent one
+    historical_generations = CSVGeneration.objects.order_by('-id')[:5] # ordered to get the most recent
 
     return render(request, 'allocator/index.html', {
         'form': form,

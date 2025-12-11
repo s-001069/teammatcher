@@ -5,28 +5,8 @@ import pygad
 
 from teacher_side.matcher.fitness_function import make_fitness_func
 from teacher_side.matcher.encoder import encode_student
-from student_side.models import StudentProfile, Task
+from teacher_side.matcher.utils import get_student_data, get_tasks
 
-
-def get_student_data():
-    """ 
-        Gets student data from DB 
-        Returns:
-            - list of StudentProfile objects
-    """
-    return StudentProfile.objects.all()
-
-def get_tasks():
-    """ 
-        Gets tasks from DB
-        Returns:
-            - list of task names
-    """
-    return list(Task.objects.filter(active=True).values_list("name", flat=True))
-
-def get_teacher_inputs(): # fix weights
-    # team_size, weights for: availability (unique weight), commitment, age, sex, job, bachelor, exp, role
-    return [4, 1, 0.5, 0.5, 0.8, 0.2, 0.1, 0.5, 0.6, 1]
 
 def prepare_data(df):
     """ 
@@ -35,20 +15,18 @@ def prepare_data(df):
             - df: pandas Dataframe containing student data from uploaded CSV
         Returns:
             - encoded student data as numpy array
-            - list of student IDs in the same order as encoded data
-            - list of indices of homogeneous features
-            - list of indices of heterogeneous features
+            - number of tasks (int)
     """
 
     students = get_student_data()
     db_student_map = {getattr(s, 'student_id', str(s)): s for s in students}
     tasks = get_tasks()
+    n_tasks = len(tasks)
 
-    vector_size = 21 + 7 + len(tasks)
+    vector_size = 21 + n_tasks + 7
 
     # encode all students
     encoded_list = []
-    id_list = []
 
     for index, row in df.iterrows():
         csv_id = str(row['username']).strip()
@@ -58,35 +36,29 @@ def prepare_data(df):
             encoded = encode_student(student, tasks)         
         else: # student did not fill form
             encoded = np.zeros(vector_size, dtype=float)
-            encoded[0:21] = 1 # assumes full availability
-            encoded[28:] = 1 #assumes all tasks preferred
-            
+            encoded[0:21+n_tasks] = 1 # assumes full availability and all tasks preferred, leaves every other feature as 0
+
         encoded_list.append(encoded)
-        id_list.append(csv_id)
 
-    return np.vstack(encoded_list), id_list
+    return np.vstack(encoded_list)
 
-def match(df, team_template):  
+def match(df, team_template, weights):  
     """ 
         Matches students into teams using genetic algorithm
         Args:
             - df: pandas Dataframe containing student data from uploaded CSV
             - team_template: TeamTemplate object
         Returns:
-            - best solution (team assignments)
+            - df with team assignments
+            - target column name (str) where assignments were added
             - best fitness score
     """
-    students_encoded, student_ids = prepare_data(df)
-    homogeneous_idx = list(range(0, 22))     # availability & commitment
-    heterogeneous_idx = list(range(22, len(students_encoded[0]))) # rest features
-
-    teacher_inputs = get_teacher_inputs()
+    students_encoded = prepare_data(df)
 
     n_teams=4
-    team_size = teacher_inputs[0]
-    weights   = teacher_inputs[1:]  # (w_avail, w_commit, w_age, w_sex, w_job, w_bach)
+    team_size = 4
 
-    fitness_func = make_fitness_func(students_encoded, team_size, weights, homogeneous_idx, heterogeneous_idx)
+    fitness_func = make_fitness_func(students_encoded, team_size, weights)
     gene_space = list(range(n_teams))
 
     ga_instance = pygad.GA(
@@ -139,4 +111,4 @@ def match(df, team_template):
         print("No empty column found after 'mode'. Creating 'teams' column.")
         df['teams'] = team_assignments
 
-    return df, target_col
+    return df, target_col, best_fitness

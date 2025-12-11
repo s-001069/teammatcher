@@ -134,6 +134,108 @@
                         </div>
                     </div>
 
+                    <hr class="border-secondary my-4">
+
+                    {% comment %} Weights {% endcomment %}
+                    <h5 class="mb-3 text-info">
+                        <i class="bi bi-sliders me-2"></i>Criteria Importance
+                    </h5>
+                    <p class="text-muted small mb-3">
+                        Set the weight (0-10) for each factor. 0 = Ignore, 10 = High Priority.
+                    </p>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label text-light small">Availability Similarity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="bi bi-calendar-week"></i>
+                                </span>
+                                <input type="number" name="weight_availability" class="form-control" value="10" min="0" max="10">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label text-light small">Commitment Similarity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="bi bi-battery-charging"></i>
+                                </span>
+                                <input type="number" name="weight_commitment" class="form-control" value="5" min="0" max="10">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label text-light small">Educational Background Diversity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="bi bi-mortarboard"></i>
+                                </span>
+                                <input type="number" name="weight_education" class="form-control" value="3" min="0" max="10">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label text-light small">Professional Background Diversity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="bi bi-briefcase"></i>
+                                </span>
+                                <input type="number" name="weight_job" class="form-control" value="3" min="0" max="10">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label text-light small">Age Diversity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="bi bi-hourglass-split"></i>
+                                </span>
+                                <input type="number" name="weight_age" class="form-control" value="5" min="0" max="10">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label text-light small">Gender Diversity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="bi bi-gender-ambiguous"></i>
+                                </span>
+                                <input type="number" name="weight_gender" class="form-control" value="5" min="0" max="10">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label text-light small">Experience Level Diversity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="bi bi-award"></i>
+                                </span>
+                                <input type="number" name="weight_experience" class="form-control" value="6" min="0" max="10">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label text-light small">Leadership Diversity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="bi bi-person-badge"></i>
+                                </span>
+                                <input type="number" name="weight_lead" class="form-control" value="6" min="0" max="10">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label text-light small">Task Interest Similarity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="bi bi-list-check"></i>
+                                </span>
+                                <input type="number" name="weight_tasks" class="form-control" value="10" min="0" max="10">      
+                            </div>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-gradient text-white w-100 py-2 fw-bold">
                         <i class="bi bi-shuffle me-2"></i>Generate Teams
                     </button>

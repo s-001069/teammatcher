@@ -1,16 +1,15 @@
 import numpy as np
 
-# def label_encode(values):
-#     """ 
-#     Converts a sequence of categorical values into integer labels
-#     """
-#     uniq = {v: i for i, v in enumerate(sorted(set(values)))}
-#     return np.array([uniq[v] for v in values], dtype=int), uniq
-
 
 def encode_student(student, tasks):
     """
     Encodes a student's data into numerical values
+    Args:
+        - student: StudentProfile object
+        - tasks: list of all possible task names
+    Returns:
+        - numpy array representing encoded student data
+        - number of tasks (int)
     """
 
     # maps for encoding categorical features
@@ -54,9 +53,10 @@ def encode_student(student, tasks):
 
     n_tasks = len(tasks)
 
-    # 7 days x 3 slots + 7 features (without tasks) + 1 * number of tasks
-    student_encoded = np.zeros((28 + n_tasks), dtype=float)
+    # 7 days x 3 slots + 1 * number of tasks + 7 rest features
+    student_encoded = np.zeros((21 + n_tasks + 7), dtype=float)
 
+    ## ------ homogeneous features ------
     # --- availability encoding ---
     day_keys = [
         "availability_monday",
@@ -85,9 +85,18 @@ def encode_student(student, tasks):
 
     offset = 21 # write after availability
 
+    # --- preferred tasks encoding ---
+    student_tasks = list(student.preferred_tasks.values_list("name", flat=True))
+    for task_idx, task_name in enumerate(tasks):
+        student_encoded[offset + task_idx] = int(task_name in student_tasks)
+
+    offset += n_tasks
+
     # --- other features encoding ---
     if student.commitment in commit_map:
         student_encoded[offset + 0] = commit_map[student.commitment]
+
+    ## ------ heterogeneous features ------
     if student.educational_background in education_map:
         student_encoded[offset + 1] = education_map[student.educational_background]
     if student.professional_background in professional_map:
@@ -101,11 +110,4 @@ def encode_student(student, tasks):
     if student.lead_preference in lead_map:
         student_encoded[offset + 6] = lead_map[student.lead_preference]
 
-    # --- preferred tasks encoding ---
-    student_tasks = list(student.preferred_tasks.values_list("name", flat=True))
-    
-    offset += 7 # write after other features
-    for task_idx, task_name in enumerate(tasks):
-        student_encoded[offset + task_idx] = int(task_name in student_tasks)
-
-    return student_encoded
+    return student_encoded, n_tasks
