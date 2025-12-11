@@ -167,7 +167,7 @@
                                 {% endif %}
                             </small>
                         </div>
-                        <a href="{% url 'download_historical_csv' generation.id %}"
+                        <a href="{% url 'teacher_side:download_historical_csv' generation.id %}"
                             class="btn btn-sm btn-outline-primary">
                             <i class="bi bi-download me-1"></i>Download
                         </a>
@@ -181,7 +181,7 @@
         <!-- Current Teams Display -->
         {% if teams %}
         <div class="text-center mb-4">
-            <a href="{% url 'download_csv' %}" class="btn btn-gradient-success text-white btn-lg px-5 py-3 fw-bold">
+            <a href="{% url 'teacher_side:download_csv' %}" class="btn btn-gradient-success text-white btn-lg px-5 py-3 fw-bold">
                 <i class="bi bi-download me-2"></i>Download Current CSV
             </a>
         </div>
