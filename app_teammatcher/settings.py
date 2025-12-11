@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'student_side',
     'teacher_side',
+    'app_teammatcher',
 ]
 
 MIDDLEWARE = [
@@ -94,8 +96,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-TEACHER_PASSWORD = "changeme123"
+TEACHER_PASSWORD = "changeme123"    

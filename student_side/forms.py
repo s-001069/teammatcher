@@ -31,6 +31,29 @@ PROFESSIONAL_CHOICES = [
     ("industry_other", "Industry – other field"),
 ]
 
+EXPERIENCE_CHOICES = [
+    ("beginner", "Beginner"),
+    ("intermediate", "Intermediate"),
+    ("advanced", "Advanced"),
+]
+
+LEAD_CHOICES = [
+    ("lead", "Lead"),
+    ("support", "Support"),
+]
+
+SEX_CHOICES = [
+    ("female", "Female"),
+    ("male", "Male"),
+    ("other", "Other / prefer not to say"),
+]
+
+COMMITMENT_CHOICES = [
+    ("minimal", "Minimal"),
+    ("regular", "Regular"),
+    ("high", "High"),
+]
+
 
 def _join_slots(codes):
     """Convert selected slot codes into a readable string."""
@@ -40,6 +63,13 @@ def _join_slots(codes):
 
 
 class StudentProfileForm(forms.ModelForm):
+    student_id = forms.CharField(
+        label="Student ID",
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+        }),
+    )
+
     # Availability fields as multi-select checkboxes
     availability_monday = forms.MultipleChoiceField(
         required=False,
@@ -90,21 +120,60 @@ class StudentProfileForm(forms.ModelForm):
         min_value=0,
         max_value=99,
         label="Age",
-        widget=forms.NumberInput(attrs={"min": 0, "max": 99}),
-    )
+        widget=forms.NumberInput(attrs={
+            "min": 0, 
+            "max": 99,
+            "class": "form-control"
+        }),
 
-    # NEW: dropdown for educational background
+    )
+    gender = forms.ChoiceField(
+        required=False,
+        choices=SEX_CHOICES,
+        label="Gender",
+        widget=forms.Select(attrs={
+            "class": "form-control"
+        }),
+    )
+    commitment = forms.ChoiceField(
+        required=False,
+        choices=COMMITMENT_CHOICES,
+        label="Commitment",
+        widget=forms.Select(attrs={
+            "class": "form-control"
+        }),
+    )
+    experience_level = forms.ChoiceField(
+        required=False,
+        choices=EXPERIENCE_CHOICES,
+        label="Experience Level",
+        widget=forms.Select(attrs={
+            "class": "form-control"
+        }),
+    )
+    lead_preference = forms.ChoiceField(
+        required=False,
+        choices=LEAD_CHOICES,
+        label="Lead Preference",
+        widget=forms.Select(attrs={
+            "class": "form-control"
+        }),
+    )
     educational_background = forms.ChoiceField(
         required=False,
         choices=EDUCATION_CHOICES,
         label="Educational background",
+        widget=forms.Select(attrs={
+            "class": "form-control"
+        }),
     )
-
-    # NEW: dropdown for professional background
     professional_background = forms.ChoiceField(
         required=False,
         choices=PROFESSIONAL_CHOICES,
         label="Professional background",
+        widget=forms.Select(attrs={
+            "class": "form-control"
+        }),
     )
 
     # Tasks from admin, multi-select
@@ -130,7 +199,7 @@ class StudentProfileForm(forms.ModelForm):
             "educational_background",
             "professional_background",
             "age",
-            "sex",
+            "gender",
             "experience_level",
             "lead_preference",
             "preferred_tasks",

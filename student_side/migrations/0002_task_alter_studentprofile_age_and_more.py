@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='studentprofile',
-            name='sex',
+            name='gender',
             field=models.CharField(blank=True, choices=[('female', 'Female'), ('male', 'Male'), ('other', 'Other / prefer not to say')], max_length=20),
         ),
         migrations.AddField(
