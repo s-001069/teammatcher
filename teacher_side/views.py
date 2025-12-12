@@ -20,6 +20,8 @@ def index(request):
         if form.is_valid():
             # get data from form
             df = pd.read_csv(request.FILES['file'])
+            df = df.dropna(how='all')
+            
             team_template = form.cleaned_data.get('team_template')
             weights = get_weights(form)
             constraints = {
