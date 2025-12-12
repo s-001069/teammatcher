@@ -68,20 +68,85 @@ Before processing, raw student data is converted into a numerical matrix:
 
 ## 5. Installation & Set-up
 
-    git clone [https://github.com/yourusername/team-matcher.git](https://github.com/yourusername/team-matcher.git)
+    # clone repository
+    git clone https://github.com/s-001069/teammatcher.git
     cd team-matcher
 
+    # create venv
     python -m venv .venv
 
-    # on linux:
-    source venv/bin/activate  
-    # on Windows: 
+    # activate venv on linux:
+    source venv/bin/activate
+    # activate venv on windows:
     venv\Scripts\activate
     
+    # install requirements
     pip install -r requirements.txt
 
+    # apply migrations
     python manage.py makemigrations
     python manage.py migrate
+
+    # collect static libaries (necessary only for production)
+    python manage.py collectstatic
+
+    # create admin user (can access admin and teacher)
     python manage.py createsuperuser
+
+    # execute server
     python manage.py runserver
 
+## 6. User guide:
+
+### Teacher:
+    - Login: Use the superuser credentials to bypass the security check
+    - Upload a CSV file containing student data
+    - Set min and max team constraints
+    - Adjust criteria weights
+    - Click "Generate teams": the algorithm will run in a few seconds
+    - Review results on the UI
+    - Export CSV output with results
+
+The new teams are added in the first empty column after "mode" column. If such column does not exists, a new 'teams' column is added on the CSV.
+
+So one matching happens per button click. If more than one teams are required, the output of the first matching can be used for the second matching and so on. This decision was taken to separate completely matching, for cases where criteria and constraints change depending on the project (e.g. different tasks, different weights on criteria).
+
+### Admin Interface:
+    - StudentProfiles: Model that contains all student data. Possible actions:
+        - Visualize data
+        - Delete student data
+        - Insert student data
+    
+    - Tasks: Model that contains all tasks. Possible actions:
+        - Visualize data
+        - Delete task
+        - Insert task
+
+    - CSV Generations: Model that contains past CSV generation data.
+        - Contains:
+            - Generation datetime
+            - CSV data string
+            - Average team size
+            - Template used for names
+            - Student count
+
+        - Possible actions:
+            - Visualize data
+            - Delete CSV Generation data
+
+    - Team name templates: Model that contains templates for team naming
+        - Contains:
+            - Name of template
+            - List of team names as json array
+            - is default flag
+
+        - Possible actions:
+            - Visualize templates
+            - Delete template data
+            - Insert new template
+
+### Student:
+    - Access student form webpage
+    - Input form with data
+    - Submit form
+    - Answer honestly, it will help achieve the best possible matching
