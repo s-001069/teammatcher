@@ -29,7 +29,7 @@ def calculate_availability_score(team_matrix, current_n):
 
 def calculate_tasks_score(team_matrix, n_tasks, tasks_start, tasks_end):
     """
-    Maximize coverage of preferred tasks within the team
+    Finds Maximum agreement of preferred tasks within the team
     Args:
         - team_matrix (np.ndarray): matrix of team members' data
         - n_tasks (int): total number of tasks
@@ -42,8 +42,10 @@ def calculate_tasks_score(team_matrix, n_tasks, tasks_start, tasks_end):
         return 0.0
 
     tasks_matrix = team_matrix[:, tasks_start:tasks_end]
-    tasks_covered = np.sum(np.sum(tasks_matrix, axis=0) > 0)
-    return tasks_covered / n_tasks
+    votes_per_task = np.sum(tasks_matrix, axis=0)
+    max_agreement = np.max(votes_per_task)
+    
+    return max_agreement / current_n
 
 
 # Reference: "Homogeneity versus Heterogeneity in Team Formation" (ResearchGate, 2018).
@@ -227,3 +229,4 @@ def make_fitness_func(students_encoded, min_size,max_size, weights):
         return float(total_fitness / valid_teams)
 
     return fitness_func
+
